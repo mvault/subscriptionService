@@ -46,11 +46,11 @@ Please read [CONTRIBUTING.md](https://github.com/your-username/subscription-serv
 
 ## Versioning
 
-We use [v0.0.1-alpha](http://semver.org/) for versioning. For the versions available, see the [v0.0.1-alpha](https://github.com/mvault/subscriptionService/tags).
+We use manual system for versioning [v0.0.1-alpha]. For the versions available, see the [v0.0.1-alpha](https://github.com/mvault/subscriptionService/tags).
 
 ## Authors
 
-- [ybenbrai](https://github.com/your-username)
+- [ybenbrai](https://github.com/ybenbrai)
 
 ## License
 
