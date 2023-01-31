@@ -17,5 +17,10 @@ module.exports = class Request {
         return new Request(data);
     }
 
-
+    // get all data
+    static async getAll() {
+        const data = await db.collection(collections.Subscription).all();
+        return data.map((item) => new Request(item));
+    }
+  
   }
