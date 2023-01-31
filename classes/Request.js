@@ -9,4 +9,13 @@ module.exports = class Request {
         this._key = data._key;
         this._id = data._id;
 
-    }   }
+    }
+    
+    // get data by key
+    static async get(key) {
+        const data = await db.collection(collections.Subscription).document(key);
+        return new Request(data);
+    }
+
+
+  }
