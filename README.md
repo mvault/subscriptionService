@@ -50,7 +50,7 @@ We use [0.1](http://semver.org/) for versioning. For the versions available, see
 
 ## Authors
 
-- [Youness Benbraitit](https://github.com/your-username)
+- [ybenbrai](https://github.com/your-username)
 
 ## License
 
