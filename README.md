@@ -52,6 +52,10 @@ We use manual system for versioning [v0.0.1-alpha]. For the versions available, 
 
 - [ybenbrai](https://github.com/ybenbrai)
 
+## Contributors
+
+- [ybenbrai](https://github.com/ybenbrai)
+
 ## License
 
 This project is licensed under the [MIT License](https://github.com/your-username/subscription-service/blob/master/LICENSE).
