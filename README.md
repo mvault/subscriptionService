@@ -46,7 +46,7 @@ Please read [CONTRIBUTING.md](https://github.com/your-username/subscription-serv
 
 ## Versioning
 
-We use [0.1](http://semver.org/) for versioning. For the versions available, see the [tags on this repository](https://github.com/your-username/subscription-service/tags).
+We use [v0.0.1-alpha](http://semver.org/) for versioning. For the versions available, see the [v0.0.1-alpha](https://github.com/mvault/subscriptionService/tags).
 
 ## Authors
 
