@@ -1,9 +1,12 @@
-var express = require('express');
-var router = express.Router();
+const express = require("express");
+const memeberHelper = require("../helpers/members");
+const validation = require("../middlewares/validation");
+const schemas = require("../helpers/schemas");
+const app = express();
 
-/* GET home page. */
-router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Express' });
+/* POST home page. */
+app.post("/", validation(schemas.subscription), async (req, res) => {
+  const data = req.body;
 });
 
 module.exports = router;
