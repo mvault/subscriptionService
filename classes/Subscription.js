@@ -1,4 +1,4 @@
-import Request from "./Request";
+const Request = require('./Request')
 
 class Subscription extends Request {
   constructor(data) {
@@ -12,10 +12,9 @@ class Subscription extends Request {
     this.status = data.status;
     this.recurring = data.recurring;
     this.billing_account = data.billing_account;
-    this.is_canceled = data.is_canceled;
     this.canceled_at = data.canceled_at;
     this.cancelation_reason = data.cancelation_reason
   }
 }
 
-export default Subscription;
+module.exports = Subscription
