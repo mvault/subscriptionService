@@ -1,38 +1,59 @@
-import { GraphQLObjectType, GraphQLString } from "graphql";
+const gql = require('graphql');
 
-const subscriptionType = new GraphQLObjectType({
+const subscriptionType = new gql.GraphQLObjectType({
   name: "subscription",
   fields() {
     return {
       _id: {
-        type: GraphQLString,
+        type: gql.GraphQLString,
+      },
+      _key: {
+        type: gql.GraphQLString,
       },
       company: {
-        type: GraphQLString,
+        type: gql.GraphQLString,
       },
       location: {
-        type: GraphQLString,
+        type: gql.GraphQLString,
       },
       item: {
-        type: GraphQLString,
-      },
-      status: {
-        type: GraphQLString,
-      },
-      recurring: {
-        type: GraphQLBoolean,
+        type: gql.GraphQLString,
       },
       start: {
-        type: GraphQLString,
+        type: gql.GraphQLString,
       },
       end: {
-        type: GraphQLString,
+        type: gql.GraphQLString,
       },
       due_date: {
-        type: GraphQLString,
+        type: gql.GraphQLString,
+      },
+      status: {
+        type: gql.GraphQLString,
+      },
+      recurring: {
+        type: gql.GraphQLBoolean,
+      },
+      billing_account: {
+        type: gql.GraphQLString,
+      },
+      is_canceled: {
+        type: gql.GraphQLBoolean,
+      },
+      canceled_at: {
+        type: gql.GraphQLString,
+      },
+      cancelation_reason: {
+        type: gql.GraphQLString,
+      },
+      created_at: {
+        type: gql.GraphQLString,
+      },
+      updated_at: {
+        type: gql.GraphQLString,
       },
     };
   },
 });
 
-export default subscriptionType;
+module.exports = subscriptionType;
