@@ -14,7 +14,7 @@ const schemas = {
         start: Joi.date().timestamp().required(),
         end: Joi.date().timestamp(),
         due_date: Joi.date().timestamp(),
-        status: Joi.string().valid('pending', 'active', 'on_hold', 'pending_cancelation', 'canceled', 'expired').default('pending'),
+        status: Joi.string().valid('pending', 'active', 'on_hold', 'pending_cancelation', 'canceled', 'expired', 'disabled').default('pending'),
         recurring: Joi.boolean().default(false),
         billing_account: Joi.string().regex(/(^billing_accounts\/[0-9]{6,}$)/),
         canceled_at: Joi.date().timestamp(),
