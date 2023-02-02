@@ -477,18 +477,53 @@ const Subscription = {
                         message: "Subscription not found"
                     });
                 };
-                if (["pending_cancelation", "canceled"].includes(subscription.status)) {
+                if (subscription.item.id != data.item.id) {
                     return reject({
                         status: 400,
                         code: "invalid_request",
-                        message: "Cannot change a plan for a canceled subscription"
+                        message: "You are allowed to change plan for the same item only."
+                    });
+                }
+                if (subscription.item.subscription.interval > data.item.subscription.interval) {
+                    return reject({
+                        status: 400,
+                        code: "invalid_request",
+                        message: "Downgrading a subscription is not allowed."
+                    });
+                }
+                if (["pending_cancelation", "canceled", "expired", "disabled"].includes(subscription.status)) {
+                    return reject({
+                        status: 400,
+                        code: "invalid_request",
+                        message: "Cannot change switch plan for this subscription, subscription is " + subscription.status === "pending_cancelation" ? "canceled" : subscription.status
                     });
                 } else if (subscription.status == "pending") {
-                    return reject({
-                        status: 400,
-                        code: "invalid_request",
-                        message: "Cannot change plan on a pending subscription"
+                    const updated = await Subscription.update({_id: data._id}, {item: data.item}).catch((e) => {
+                        return reject({
+                            status: 500,
+                            code: "internal_server_error",
+                            message: e
+                        });
                     });
+                    return resolve(updated);
+                } else if (subscription.status == "on_hold") {
+                    const updated = await Subscription.update({_id: data._id}, {item: data.item}).catch((e) => {
+                        return reject({
+                            status: 500,
+                            code: "internal_server_error",
+                            message: e
+                        });
+                    });
+                    return resolve(updated);
+                } else if (subscription.status == "active") {
+                    const updated = await Subscription.update({_id: data._id}, {item: data.item}).catch((e) => {
+                        return reject({
+                            status: 500,
+                            code: "internal_server_error",
+                            message: e
+                        });
+                    });
+                    return resolve(updated);
                 } else {
                     const updated = await Subscription.update({_id: data._id}, {plan: data.plan}).catch((e) => {
                         return reject({
