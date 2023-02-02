@@ -269,7 +269,7 @@ const Subscription = {
         });
     },
 
-    upgrade: async (data) => {
+    downgradePlan: async (data) => {
         return new Promise(async (resolve, reject) => {
             try {
             } catch (error) {
@@ -459,7 +459,7 @@ const Subscription = {
         });
     },
 
-    changePlan: async (data) => {
+    upgradePlan: async (data) => {
         return new Promise(async (resolve, reject) => {
             try {
                 const Subscription = new Subscriptions({});
