@@ -60,6 +60,75 @@ const Subscription = {
         });
     },
 
+    // activate a new subscription (pending) after payment is made
+    activate: async (data) => {
+        return new Promise(async (resolve, reject) => {
+            try {
+                const Subscription = new Subscriptions({});
+                const subscription = await Subscription.getOne({_id: data._id}).catch((e) => {
+                    return reject({
+                        status: 500,
+                        code: "internal_server_error",
+                        message: e
+                    });
+                });
+                if (!subscription) {
+                    return reject({
+                        status: 404,
+                        code: "not_found",
+                        message: "Subscription not found"
+                    });
+                };
+                if (subscription.status !== "pending") {
+                    return reject({
+                        status: 400,
+                        code: "invalid_request",
+                        message: "Only pending subscriptions can be activated"
+                    });
+                };
+                if (data.transaction && data.transaction.status === "success") {
+                    if (subscription.transaction) {
+                        return reject({
+                            status: 400,
+                            code: "invalid_request",
+                            message: "Subscription already has a transaction, try updating the subscription"
+                        });
+                    } else {
+                        if (data.transaction.amount !== subscription.amount) {
+                            return reject({
+                                status: 400,
+                                code: "invalid_request",
+                                message: "Transaction amount does not match subscription amount"
+                            });
+                        }
+                        subscription.transaction = data.transaction;
+                        subscription.status = "active";
+                        const result = await Subscription.update(subscription).catch((e) => {
+                            return reject({
+                                status: 500,
+                                code: "internal_server_error",
+                                message: e
+                            });
+                        });
+                        return resolve(result);
+                    }
+                } else {
+                    return reject({
+                        status: 400,
+                        code: "invalid_request",
+                        message: "Invalid attempt to activate subscription, invalid transaction"
+                    });
+                }
+            } catch (error) {
+                return reject({
+                    status: 500,
+                    code: "internal_server_error",
+                    message: error
+                });
+            }
+        });
+    },
+
     update: async (data) => {
         return new Promise(async (resolve, reject) => {
             try {
@@ -241,7 +310,7 @@ const Subscription = {
                                 message: e
                             });
                         });
-                        return resolve(updated);
+                        return resolve({message: "Your subscription is not renewed yet, you still have to pay " + (Number(subscription.due_amount) - Number(data.transaction.amount)) + " " + (subscription.currency ||"USD")});
                     } else {
                         const updated = await Subscription.update({_id: data._id}, {due_amount: Number(subscription.due_amount) - Number(data.transaction.amount), status: "active", end: new Date(new Date(data.start).getTime() + Number(data.item.subscription.interval) + Number(data.item.subscription.trial_period)), due_date: new Date(new Date(data.start).getTime() + Number(data.item.subscription.interval) + Number(data.item.subscription.trial_period))}).catch((e) => {
                             return reject({
@@ -259,19 +328,6 @@ const Subscription = {
                         message: "The transaction is not valid"
                     });
                 }
-            } catch (error) {
-                return reject({
-                    status: 500,
-                    code: "internal_server_error",
-                    message: error
-                });
-            }
-        });
-    },
-
-    downgradePlan: async (data) => {
-        return new Promise(async (resolve, reject) => {
-            try {
             } catch (error) {
                 return reject({
                     status: 500,
