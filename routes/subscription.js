@@ -57,6 +57,25 @@ app.patch("/", async (req, res) => {
   });
 });
 
+app.patch("/activate", async (req, res) => {
+  const data = req.body;
+  if (res.locals.user.role === "admin") {
+    data.customer = data.customer
+    data.company = res.locals.roles.company
+  } else if (res.locals.user.role === "manager") {
+    data.customer = data.customer
+    data.company = res.locals.roles.company
+    data.location = res.locals.roles.location
+  } else {
+    return res.status(400).send(res.locals.response = {status: 400, code: "unauthorized", message: "Unauthorized"});
+  }
+  await subscriptionHelper.activate(data).then((result) => {
+    return res.status(200).send(res.locals.response = {status: 200, result});
+  }).catch((err) => {
+    return res.status(err.status || 400).send(res.locals.response = {status: err.status || 400, code: err.code, message: err.message});
+  });
+});
+
 app.patch("/billing", async (req, res) => {
   const data = req.body;
   if (res.locals.user.role === "admin") {
