@@ -65,12 +65,13 @@ const schemas = {
         due_date: Joi.date().timestamp(),
         due_amount: Joi.number().precision(2).default(0),
         status: Joi.string().insensitive().lowercase().valid('pending', 'active', 'on_hold', 'pending_cancelation', 'canceled', 'expired', 'disabled').default('pending'),
-        transactions: Joi.array().items(Joi.object().keys({
+        transactions: Joi.object().keys({
             id: Joi.string().regex(/(^transactions\/[0-9]{6,}$)/).required(),
             amount: Joi.number().precision(2).required(),
             status: Joi.string().insensitive().lowercase().valid('pending', 'paid', 'failed', 'canceled', 'refunded').required(),
-        })),
+        }),
         recurring: Joi.boolean().default(false),
+        customer: Joi.string().regex(/(^customers\/[0-9]{6,}$)/).required(),
         billing_account: Joi.string().regex(/(^billing_accounts\/[0-9]{6,}$)/).required(),
         canceled_at: Joi.date().timestamp(),
         cancelation_reason: Joi.string()
