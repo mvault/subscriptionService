@@ -230,7 +230,7 @@ const subscriptionType = new gql.GraphQLObjectType({
         type: gql.GraphQLBoolean,
       },
       customer: {
-        type: new gql.GraphQLString,
+        type: gql.GraphQLString,
       },
       billing_account: {
         type: gql.GraphQLString,

@@ -1,6 +1,7 @@
-import { db } from "../data/arango";
+const {db} = require("../data/arango");
+
 const gql = require("graphql");
-const subscriptionType = require("types/subscription");
+const subscriptionType = require("./types/subscription");
 
 const queryType = new gql.GraphQLObjectType({
   name: "Query",
@@ -58,7 +59,7 @@ const queryType = new gql.GraphQLObjectType({
                 },
                 equal: {
                   type: gql.GraphQLFloat,
-                }
+                },
               },
             }),
           },
@@ -86,7 +87,7 @@ const queryType = new gql.GraphQLObjectType({
                 },
                 equal: {
                   type: gql.GraphQLString,
-                }
+                },
               },
             }),
           },
@@ -102,7 +103,7 @@ const queryType = new gql.GraphQLObjectType({
                 },
                 equal: {
                   type: gql.GraphQLString,
-                }
+                },
               },
             }),
           },
@@ -118,13 +119,13 @@ const queryType = new gql.GraphQLObjectType({
                 },
                 equal: {
                   type: gql.GraphQLFloat,
-                }
+                },
               },
             }),
           },
           due_date: {
             type: new gql.GraphQLInputObjectType({
-              name: "subscription_end",
+              name: "subscription_due_date",
               fields: {
                 min: {
                   type: gql.GraphQLString,
@@ -134,7 +135,7 @@ const queryType = new gql.GraphQLObjectType({
                 },
                 equal: {
                   type: gql.GraphQLString,
-                }
+                },
               },
             }),
           },
@@ -154,7 +155,9 @@ const queryType = new gql.GraphQLObjectType({
         },
         async resolve(root, args) {
           let query = `FOR subscription IN subscriptions FILTER `;
-          query += args.removed ? `!!subscription.removed ` : `!subscription.removed `;
+          query += args.removed
+            ? `!!subscription.removed `
+            : `!subscription.removed `;
           if (args.role === "admin") {
             if (args.company) {
               query += `&& subscription.company == "${args.company}" `;

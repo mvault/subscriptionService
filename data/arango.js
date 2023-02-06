@@ -1,4 +1,4 @@
-import { Database } from "arangojs";
+const Database = require("arangojs");
 
 const db = new Database({
   url: process.env.DB_LINK,
@@ -12,8 +12,5 @@ const pay_db = new Database({
   auth: { username: process.env.PAY_DB_USER, password: process.env.DB_PWD },
 });
 
-
-export default {
-  db,
-  pay_db,
-};
+exports.db = db;
+exports.pay_db = pay_db;

@@ -30,10 +30,6 @@ app.use('/graphql', graphqlHTTP({
     graphiql: true,
   }));
   
-  app.use(
-    '/api-docs',
-    swaggerUi.serve, 
-    swaggerUi.setup(swaggerDocument)
-  );
+
 
 module.exports = app;
